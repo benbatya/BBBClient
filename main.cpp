@@ -22,7 +22,7 @@
 #include <OpenNI.h>
 
 #include <time.h>
-#include <iostream>
+// #include <iostream>
 
 #include "OniSampleUtilities.h"
 
