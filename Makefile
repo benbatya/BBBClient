@@ -22,6 +22,6 @@ USED_LIBS += OpenNI2
 
 EXE_NAME = SimpleRead
 
-CFLAGS += -Wall
+CFLAGS += -Wall -std=c++11
 
 include CommonCppMakefile

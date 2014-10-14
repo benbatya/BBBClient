@@ -22,13 +22,22 @@
 #include <OpenNI.h>
 
 #include <time.h>
+
+#include <string>
 #include <iostream>
+#include <thread>
 
 #include "OniSampleUtilities.h"
 
 #define SAMPLE_READ_WAIT_TIMEOUT 2000 //2000ms
 
 using namespace openni;
+
+void test1(std::string msg)
+{
+	std::cout << "In test1: " << msg << std::endl;
+}
+
 
 int main()
 {
@@ -67,6 +76,10 @@ int main()
 	}
 
 	VideoFrameRef frame;
+
+	std::thread t1(test1, "Hello");
+
+	t1.join();
 
 	// This is for track the fps
 	time_t last = time(NULL);
