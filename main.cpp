@@ -25,7 +25,11 @@
 
 #include <string>
 #include <iostream>
-#include <thread>
+
+// NOTE: this needs to be before any boost includes or <random>
+#undef _GLIBCXX_USE_INT128
+
+#include <boost/thread.hpp>
 
 #include "OniSampleUtilities.h"
 
@@ -33,8 +37,9 @@
 
 using namespace openni;
 
-void test1(std::string msg)
+void test1()
 {
+	std::string msg = "fdsfds";
 	std::cout << "In test1: " << msg << std::endl;
 }
 
@@ -77,7 +82,7 @@ int main()
 
 	VideoFrameRef frame;
 
-	std::thread t1(test1, "Hello");
+	boost::thread t1(test1);
 
 	t1.join();
 
