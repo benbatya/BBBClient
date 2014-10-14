@@ -104,7 +104,7 @@ int main()
 		time_t now = time(NULL);
 		if((now - last) >= 1)
 		{
-			printf("%d fps\n", numFrames);
+			printf("%d fps", numFrames);
 			std::cout << ", now = " << now << ", last = " << last << std::endl;
 			last = now;
 			numFrames = 0;
