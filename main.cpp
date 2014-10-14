@@ -22,7 +22,7 @@
 #include <OpenNI.h>
 
 #include <time.h>
-// #include <iostream>
+#include <iostream>
 
 #include "OniSampleUtilities.h"
 
@@ -105,7 +105,7 @@ int main()
 		if((now - last) >= 1)
 		{
 			printf("%d fps\n", numFrames);
-//			std::cout << ", now = " << now << ", last = " << last << std::endl;
+			std::cout << ", now = " << now << ", last = " << last << std::endl;
 			last = now;
 			numFrames = 0;
 		}
