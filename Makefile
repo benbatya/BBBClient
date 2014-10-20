@@ -12,7 +12,10 @@ BIN_DIR = Bin
 # INC_DIRS = /usr/arm-linux-gnueabihf/include /usr/arm-linux-gnueabihf/include/c++/4.8.2 /usr/arm-linux-gnueabihf/include/OpenNI2
 
 # This set of includes seems to get the cross compiler working ok 
-INC_DIRS = /usr/arm-linux-gnueabihf/include /usr/aarch64-linux-gnu/include/c++/4.8.2 /usr/aarch64-linux-gnu/include/c++/4.8.2/aarch64-linux-gnu /usr/arm-linux-gnueabihf/include/OpenNI2
+INC_DIRS = /usr/arm-linux-gnueabihf/include \
+/usr/arm-linux-gnueabihf/include/c++/4.8.2 \
+/usr/arm-linux-gnueabihf/include/c++/4.8.2/arm-linux-gnueabihf \
+/usr/arm-linux-gnueabihf/include/OpenNI2
 
 LIB_DIRS = /usr/arm-linux-gnueabihf/lib/OpenNI2 /usr/arm-linux-gnueabihf/lib/boost
 
