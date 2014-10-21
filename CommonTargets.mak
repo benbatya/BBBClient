@@ -17,6 +17,10 @@ $(OUT_DIR):
 # Final output file
 $(OUTPUT_FILE): $(SRC_FILES_LIST) | $(OUT_DIR)
 
+run: $(OUTPUT_FILE)
+	scp $(OUTPUT_FILE) root@192.168.7.2:
+	ssh root@192.168.7.2 "./SimpleRead"
+
 clean-$(OUTPUT_FILE):
 	rm -rf $(OUTPUT_FILE)
 	

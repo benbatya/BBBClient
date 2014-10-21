@@ -21,11 +21,10 @@ LIB_DIRS = /usr/arm-linux-gnueabihf/lib/OpenNI2 /usr/arm-linux-gnueabihf/lib/boo
 
 SRC_FILES = *.cpp
 
-USED_LIBS += OpenNI2 boost_thread
+USED_LIBS += OpenNI2 boost_system
 
 EXE_NAME = SimpleRead
 
-# -D_GLIBCXX_USE_INT128=0 removes a compile error in <random> and -Wno-unused-local-typedefs gets rid of annoying boost errors (sigh!)
-CFLAGS += -Wall # -std=c++11 # -D_GLIBCXX_USE_INT128=0 -Wno-unused-local-typedefs
+CFLAGS += -Wall
 
 include CommonCppMakefile
