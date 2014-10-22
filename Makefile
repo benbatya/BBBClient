@@ -21,7 +21,7 @@ LIB_DIRS = /usr/arm-linux-gnueabihf/lib/OpenNI2 /usr/arm-linux-gnueabihf/lib/boo
 
 SRC_FILES = *.cpp
 
-USED_LIBS += OpenNI2 boost_system
+USED_LIBS += OpenNI2 boost_system boost_thread
 
 EXE_NAME = SimpleRead
 

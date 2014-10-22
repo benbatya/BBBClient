@@ -23,7 +23,6 @@
 
 #include <time.h>
 
-#include <string>
 #include <iostream>
 
 #include <boost/thread.hpp>
@@ -36,128 +35,161 @@
 
 using namespace openni;
 
-/*
-                                                                                                                                                   
-void captureFrame()                                                                                                                                
-**                                                                                                                                                
- * This captures the frame and puts it on the lock free queue                                                                                      
- *                                                                                                                                                 
- * @author benjamin (10/20/2014)                                                                                                                   
- *                                                                                                                                                
-{                                                                                                                                                  
-                                                                                                                                                   
-    Status rc = OpenNI::initialize();                                                                                                              
-    if (rc != STATUS_OK)                                                                                                                           
-    {                                                                                                                                              
-        printf("Initialize failed\n%s\n", OpenNI::getExtendedError());                                                                             
-        return 1;                                                                                                                                  
-    }                                                                                                                                              
-                                                                                                                                                   
-    Device device;                                                                                                                                 
-    rc = device.open(ANY_DEVICE);                                                                                                                  
-    if (rc != STATUS_OK)                                                                                                                           
-    {                                                                                                                                              
-        printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());                                                                          
-        return 1;                                                                                                                                  
-    }                                                                                                                                              
-                                                                                                                                                   
-    Device device;                                                                                                                                 
-    rc = device.open(ANY_DEVICE);                                                                                                                  
-    if (rc != STATUS_OK)                                                                                                                           
-    {                                                                                                                                              
-        printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());                                                                          
-        return 2;                                                                                                                                  
-    }                                                                                                                                              
-                                                                                                                                                   
-    VideoStream depth;                                                                                                                             
-                                                                                                                                                   
-    if (device.getSensorInfo(SENSOR_DEPTH) != NULL)                                                                                                
-    {                                                                                                                                              
-        rc = depth.create(device, SENSOR_DEPTH);                                                                                                   
-        if (rc != STATUS_OK)                                                                                                                       
-        {                                                                                                                                          
-            printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());                                                              
-            return 3;                                                                                                                              
-        }                                                                                                                                          
-    }                                                                                                                                              
-                                                                                                                                                   
-    rc = depth.start();                                                                                                                            
-    if (rc != STATUS_OK)                                                                                                                           
-    {                                                                                                                                              
-        printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());                                                               
-        return 4;                                                                                                                                  
-    }                                                                                                                                              
-                                                                                                                                                   
-    VideoFrameRef frame;                                                                                                                           
-                                                                                                                                                   
-    // This is for track the fps                                                                                                                   
-    time_t last = time(NULL);                                                                                                                      
-    uint numFrames = 0;                                                                                                                            
-    while (!wasKeyboardHit())                                                                                                                      
-    {                                                                                                                                              
-        int changedStreamDummy;                                                                                                                    
-        VideoStream *pStream = &depth;                                                                                                             
-        rc = OpenNI::waitForAnyStream(&pStream, 1, &changedStreamDummy, SAMPLE_READ_WAIT_TIMEOUT);                                                 
-        if (rc != STATUS_OK)                                                                                                                       
-        {                                                                                                                                          
-            printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, OpenNI::getExtendedError());                                 
-            continue;                                                                                                                              
-        }                                                                                                                                          
-                                                                                                                                                   
-        rc = depth.readFrame(&frame);                                                                                                              
-        if (rc != STATUS_OK)                                                                                                                       
-        {                                                                                                                                          
-            printf("Read failed!\n%s\n", OpenNI::getExtendedError());                                                                              
-            continue;                                                                                                                              
-        }                                                                                                                                          
-                                                                                                                                                   
-        if (frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_1_MM && frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_100_UM)
-        {                                                                                                                                          
-            printf("Unexpected frame format\n");                                                                                                   
-            continue;                                                                                                                              
-        }                                                                                                                                          
-                                                                                                                                                   
-        DepthPixel *pDepth = (DepthPixel *)frame.getData();                                                                                        
-                                                                                                                                                   
-        int middleIndex = (frame.getHeight() + 1) * frame.getWidth() / 2;                                                                          
-                                                                                                                                                   
-        printf("[%08llu] %8d\n", (long long)frame.getTimestamp(), pDepth[middleIndex]);                                                            
-                                                                                                                                                   
-        time_t now = time(NULL);                                                                                                                   
-        if ((now - last) >= 1)                                                                                                                     
-        {                                                                                                                                          
-            printf("%d fps", numFrames);                                                                                                           
-            std::cout << ", now = " << now << ", last = " << last << std::endl;                                                                    
-            last = now;                                                                                                                            
-            numFrames = 0;                                                                                                                         
-        }                                                                                                                                          
-        numFrames += 1;                                                                                                                            
-    }                                                                                                                                              
-                                                                                                                                                   
-    depth.stop();                                                                                                                                  
-    depth.destroy();                                                                                                                               
-    device.close();                                                                                                                                
-    OpenNI::shutdown();                                                                                                                            
-                                                                                                                                                   
-    return 0;                                                                                                                                      
-}                                                                                                                                                  
+int captureFrame()
+/**
+* This captures the frame and puts it on the lock free queue
+*
+* @author benjamin(10/20/2014)
 */
+{
+
+    Status rc = OpenNI::initialize();
+    if (rc != STATUS_OK)
+    {
+        printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
+        return 1;
+    }
+
+    Device device;
+    rc = device.open(ANY_DEVICE);
+    if (rc != STATUS_OK)
+    {
+        printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
+        return 1;
+    }
+
+    VideoStream depth;
+
+    if (device.getSensorInfo(SENSOR_DEPTH)!= NULL)
+    {
+        rc = depth.create(device, SENSOR_DEPTH);
+        if (rc != STATUS_OK)
+        {
+            printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+            return 3;
+        }
+    }
+
+    rc = depth.start();
+    if (rc != STATUS_OK)
+    {
+        printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
+        return 4;
+    }
+
+    VideoFrameRef frame;
+
+    // This is for track the fps
+    time_t last = time(NULL);
+    uint numFrames = 0;
+    while (!wasKeyboardHit())
+    {
+        int changedStreamDummy;
+        VideoStream *pStream = &depth;
+        rc = OpenNI::waitForAnyStream(&pStream, 1, &changedStreamDummy, SAMPLE_READ_WAIT_TIMEOUT);
+        if (rc != STATUS_OK)
+        {
+            printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, OpenNI::getExtendedError());
+            continue;
+        }
+
+        rc = depth.readFrame(&frame);
+        if (rc != STATUS_OK)
+        {
+            printf("Read failed!\n%s\n", OpenNI::getExtendedError());
+            continue;
+        }
+
+        if (frame.getVideoMode().getPixelFormat()!= PIXEL_FORMAT_DEPTH_1_MM && frame.getVideoMode().getPixelFormat()!= PIXEL_FORMAT_DEPTH_100_UM)
+        {
+            printf("Unexpected frame format\n");
+            continue;
+        }
+
+        DepthPixel *pDepth = (DepthPixel *)frame.getData();
+
+        int middleIndex = (frame.getHeight()+ 1)* frame.getWidth()/ 2;
+
+        printf("[%08llu] %8d\n",(long long)frame.getTimestamp(), pDepth[middleIndex]);
+
+        time_t now = time(NULL);
+        if ((now - last)>= 1)
+        {
+            printf("%d fps", numFrames);
+            std::cout << ", now = " << now << ", last = " << last << std::endl;
+            last = now;
+            numFrames = 0;
+        }
+        numFrames += 1;
+    }
+
+    depth.stop();
+    depth.destroy();
+    device.close();
+    OpenNI::shutdown();
+
+    return 0;
+}
 
 int gProducerCount = 0;
 boost::atomic_int  gConsumerCount(0);
 
+boost::lockfree::spsc_queue<int, boost::lockfree::capacity<1024> > gSPSCQueue;
+
+const int ITERATIONS = 10000000;
+
+void producer(void)
+{
+    for (int i = 0; i < ITERATIONS; ++i)
+    {
+        int value = ++gProducerCount;
+        while (!gSPSCQueue.push(value)) { } // do nothing until the value is pushed
+    }
+}
+
+boost::atomic_bool gDone(false);
+
+void consumer(void)
+{
+    int value;
+    while (!gDone)
+    {
+        while (gSPSCQueue.read_available() > 0)
+        {
+            gSPSCQueue.pop(value);
+            ++gConsumerCount;
+        }
+
+        boost::this_thread::sleep_for(boost::chrono::microseconds(25));
+    }
+
+    while (gSPSCQueue.read_available() > 0)
+    {
+        gSPSCQueue.pop(value);
+        ++gConsumerCount;
+    }
+}
+
 int main()
 {
-    std::cout << "main: starting" << std::endl;
+   using namespace std;
 
-    // Worker w(612, 10, 5);
-    // boost::thread workerThread(w);
+   cout << "boost::lockfree::queue is ";
+   if (!gSPSCQueue.is_lock_free())
+   {
+       cout << "not ";
+   }
+   cout << "lockfree" << endl;
 
-    std::cout << "main: waiting for thread" << std::endl;
+   boost::thread producerThread(producer);
+   boost::thread consumerThread(consumer);
 
-    // workerThread.join();
+   producerThread.join();
+   gDone = true;
+   consumerThread.join();
 
-    std::cout << "main: done" << std::endl;
+   cout << "produced " << gProducerCount << " objects." << endl;
+   cout << "consumed " << gConsumerCount << " objects." << endl;
 
     return 0;
 }

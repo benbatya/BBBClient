@@ -19,7 +19,7 @@ $(OUTPUT_FILE): $(SRC_FILES_LIST) | $(OUT_DIR)
 
 run: $(OUTPUT_FILE)
 	scp $(OUTPUT_FILE) root@192.168.7.2:
-	ssh root@192.168.7.2 "./SimpleRead"
+# ssh root@192.168.7.2 "./SimpleRead" # Don't try to run the executable from inside the build system. I'll debug it from the outside
 
 clean-$(OUTPUT_FILE):
 	rm -rf $(OUTPUT_FILE)
